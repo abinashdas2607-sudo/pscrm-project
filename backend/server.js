@@ -7,7 +7,7 @@ const app = express()
 app.use(express.json({limit:"10mb"}))
 app.use(cors())
 
-mongoose.connect("mongodb://127.0.0.1:27017/pscrm")
+mongoose.connect("mongodb+srv://Abinash2026:PScrm12345@cluster0.4quxiqu.mongodb.net/pscrm?retryWrites=true&w=majority")
 
 const Complaint = mongoose.model("Complaint",{
 
