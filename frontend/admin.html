@@ -24,7 +24,7 @@
 
 async function loadComplaints(){
 
-const res = await fetch("http://localhost:5000/complaints")
+const res = await fetch("https://pscrm-project.onrender.com")
 
 const data = await res.json()
 
@@ -89,7 +89,7 @@ container.appendChild(div)
 
 async function updateStatus(id,status){
 
-await fetch("http://localhost:5000/update/"+id,{
+await fetch("https://pscrm-project.onrender.com"+id,{
 
 method:"PUT",
 

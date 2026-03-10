@@ -23,7 +23,7 @@ const category = document.getElementById("category").value
 const location = document.getElementById("location").value
 const issue = document.getElementById("issue").value
 
-const res = await fetch("http://localhost:5000/complaint",{
+const res = await fetch("https://pscrm-project.onrender.com",{
 
 method:"POST",
 
