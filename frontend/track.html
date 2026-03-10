@@ -22,20 +22,21 @@
 
 <script>
 
+const API = "https://pscrm-project.onrender.com"
+
 async function track(){
 
 const id = document.getElementById("complaintId").value
 
-const res = await fetch("http://localhost:5000/complaints")
-
+const res = await fetch(API + "/complaints")
 const data = await res.json()
 
-const complaint = data.find(c=>c.complaintId===id)
+const complaint = data.find(c => c.complaintId === id)
 
 if(complaint){
 
 document.getElementById("result").innerHTML =
-"Status: "+complaint.status
+"Status: " + complaint.status
 
 }else{
 
@@ -45,7 +46,6 @@ document.getElementById("result").innerHTML =
 }
 
 }
-
 </script>
 
 </body>

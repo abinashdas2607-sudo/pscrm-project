@@ -22,37 +22,18 @@
 
 <script>
 
+const API = "https://pscrm-project.onrender.com"
+
 async function loadComplaints(){
 
-const res = await fetch("https://pscrm-project.onrender.com")
-
+const res = await fetch(API + "/complaints")
 const data = await res.json()
-
-const search = document.getElementById("search").value.toLowerCase()
-
-const statusFilter = document.getElementById("statusFilter").value
-
-const filtered = data.filter(c=>{
-
-return (
-
-(statusFilter==="All" || c.status===statusFilter) &&
-
-(
-c.name.toLowerCase().includes(search) ||
-c.location.toLowerCase().includes(search) ||
-c.category.toLowerCase().includes(search)
-)
-
-)
-
-})
 
 const container = document.getElementById("complaints")
 
 container.innerHTML=""
 
-filtered.forEach(c=>{
+data.forEach(c=>{
 
 const div = document.createElement("div")
 
@@ -89,7 +70,7 @@ container.appendChild(div)
 
 async function updateStatus(id,status){
 
-await fetch("https://pscrm-project.onrender.com"+id,{
+await fetch(API + "/update/" + id,{
 
 method:"PUT",
 
@@ -104,10 +85,6 @@ body:JSON.stringify({status})
 loadComplaints()
 
 }
-
-document.getElementById("search").addEventListener("input",loadComplaints)
-
-document.getElementById("statusFilter").addEventListener("change",loadComplaints)
 
 loadComplaints()
 
