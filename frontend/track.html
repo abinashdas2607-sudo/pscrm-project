@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Track Complaint</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Track Complaint</h2>
+
+<input id="complaintId" placeholder="Enter Complaint ID">
+
+<button onclick="track()">Check Status</button>
+
+<p id="result"></p>
+
+</div>
+
+<script>
+
+async function track(){
+
+const id = document.getElementById("complaintId").value
+
+const res = await fetch("http://localhost:5000/complaints")
+
+const data = await res.json()
+
+const complaint = data.find(c=>c.complaintId===id)
+
+if(complaint){
+
+document.getElementById("result").innerHTML =
+"Status: "+complaint.status
+
+}else{
+
+document.getElementById("result").innerHTML =
+"Complaint not found"
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

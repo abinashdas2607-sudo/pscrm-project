@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>PS-CRM Admin Dashboard</h1>
+
+<input id="search" placeholder="Search complaints">
+
+<select id="statusFilter">
+<option value="All">All</option>
+<option value="Pending">Pending</option>
+<option value="Completed">Completed</option>
+</select>
+
+<div id="complaints"></div>
+
+<script>
+
+async function loadComplaints(){
+
+const res = await fetch("http://localhost:5000/complaints")
+
+const data = await res.json()
+
+const search = document.getElementById("search").value.toLowerCase()
+
+const statusFilter = document.getElementById("statusFilter").value
+
+const filtered = data.filter(c=>{
+
+return (
+
+(statusFilter==="All" || c.status===statusFilter) &&
+
+(
+c.name.toLowerCase().includes(search) ||
+c.location.toLowerCase().includes(search) ||
+c.category.toLowerCase().includes(search)
+)
+
+)
+
+})
+
+const container = document.getElementById("complaints")
+
+container.innerHTML=""
+
+filtered.forEach(c=>{
+
+const div = document.createElement("div")
+
+div.className="card"
+
+div.innerHTML=`
+
+<h3>${c.issue}</h3>
+
+<p><b>ID:</b> ${c.complaintId}</p>
+
+<p><b>Name:</b> ${c.name}</p>
+
+<p><b>Category:</b> ${c.category}</p>
+
+<p><b>Location:</b> ${c.location}</p>
+
+<p><b>Status:</b> ${c.status}</p>
+
+<img src="${c.image}" width="200"/>
+
+<select onchange="updateStatus('${c._id}',this.value)">
+<option value="Pending">Pending</option>
+<option value="Completed">Completed</option>
+</select>
+
+`
+
+container.appendChild(div)
+
+})
+
+}
+
+async function updateStatus(id,status){
+
+await fetch("http://localhost:5000/update/"+id,{
+
+method:"PUT",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({status})
+
+})
+
+loadComplaints()
+
+}
+
+document.getElementById("search").addEventListener("input",loadComplaints)
+
+document.getElementById("statusFilter").addEventListener("change",loadComplaints)
+
+loadComplaints()
+
+</script>
+
+</body>
+</html>

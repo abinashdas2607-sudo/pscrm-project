@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>PS-CRM Complaint Portal</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Public Service Complaint Portal</h1>
+
+<form id="form">
+
+<input id="name" placeholder="Your Name" required>
+
+<select id="category">
+<option>Road</option>
+<option>Garbage</option>
+<option>Water</option>
+<option>Electricity</option>
+<option>Safety</option>
+<option>Other</option>
+</select>
+
+<input id="location" placeholder="Location" required>
+
+<textarea id="issue" placeholder="Describe issue" required></textarea>
+
+<input type="file" id="image">
+
+<button type="submit">Submit Complaint</button>
+
+</form>
+
+<p id="complaintMessage"></p>
+
+<a href="admin.html">Admin Dashboard</a>
+<br>
+<a href="track.html">Track Complaint</a>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
