@@ -2,44 +2,49 @@
 <html>
 
 <head>
-<title>PS-CRM Complaint Portal</title>
+<title>PS-CRM | Civic Command Center</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="logo">PS-CRM</div>
+  <div class="nav-links">
+    <a href="admin.html">Admin Dashboard</a>
+    <a href="track.html">Track Complaint</a>
+  </div>
+</div>
+
+<!-- MAIN CONTAINER -->
 <div class="container">
 
-<h1>Public Service Complaint Portal</h1>
+  <h1>Public Service Complaint Portal</h1>
+  <p class="subtitle">Report issues. Track progress. Improve governance.</p>
 
-<form id="form">
+  <form id="form">
 
-<input id="name" placeholder="Your Name" required>
+    <input id="name" placeholder="Your Name" required>
 
-<select id="category">
-<option>Road</option>
-<option>Garbage</option>
-<option>Water</option>
-<option>Electricity</option>
-<option>Safety</option>
-<option>Other</option>
-</select>
+    <select id="category">
+      <option>Road</option>
+      <option>Electricity</option>
+      <option>Water</option>
+      <option>Sanitation</option>
+    </select>
 
-<input id="location" placeholder="Location" required>
+    <input id="location" placeholder="Location" required>
 
-<textarea id="issue" placeholder="Describe issue" required></textarea>
+    <textarea id="issue" placeholder="Describe issue" required></textarea>
 
-<input type="file" id="image">
+    <input type="file" id="image">
 
-<button type="submit">Submit Complaint</button>
+    <button type="submit">Submit Complaint</button>
 
-</form>
+  </form>
 
-<p id="complaintMessage"></p>
-
-<a href="admin.html">Admin Dashboard</a>
-<br>
-<a href="track.html">Track Complaint</a>
+  <p id="complaintMessage"></p>
 
 </div>
 
