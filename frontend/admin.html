@@ -2,15 +2,32 @@
 <html>
 
 <head>
-<title>Admin Dashboard</title>
+<title>PS-CRM Command Center</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>PS-CRM Admin Dashboard</h1>
+<h1>PS-CRM Command Center</h1>
+<p class="subtitle">Real-Time Civic Complaint Monitoring System</p>
 
-<input id="search" placeholder="Search complaints">
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-box">
+    <h2 id="total">0</h2>
+    <p>Total</p>
+  </div>
+  <div class="stat-box pending">
+    <h2 id="pending">0</h2>
+    <p>Pending</p>
+  </div>
+  <div class="stat-box completed">
+    <h2 id="completed">0</h2>
+    <p>Completed</p>
+  </div>
+</div>
+
+<input id="search" placeholder="Search complaints...">
 
 <select id="statusFilter">
 <option value="All">All</option>
@@ -18,6 +35,7 @@
 <option value="Completed">Completed</option>
 </select>
 
+<div id="loading">Loading complaints...</div>
 <div id="complaints"></div>
 
 <script>
@@ -26,17 +44,50 @@ const API = "https://pscrm-project.onrender.com"
 
 async function loadComplaints(){
 
+document.getElementById("loading").style.display = "block"
+
 const res = await fetch(API + "/complaints")
 const data = await res.json()
 
-const container = document.getElementById("complaints")
+document.getElementById("loading").style.display = "none"
 
+const search = document.getElementById("search").value.toLowerCase()
+const statusFilter = document.getElementById("statusFilter").value
+
+let total = data.length
+let pending = data.filter(c => c.status === "Pending").length
+let completed = data.filter(c => c.status === "Completed").length
+
+document.getElementById("total").innerText = total
+document.getElementById("pending").innerText = pending
+document.getElementById("completed").innerText = completed
+
+const filtered = data.filter(c => {
+
+return (
+(statusFilter==="All" || c.status===statusFilter) &&
+(
+c.name.toLowerCase().includes(search) ||
+c.location.toLowerCase().includes(search) ||
+c.category.toLowerCase().includes(search)
+)
+)
+
+})
+
+const container = document.getElementById("complaints")
 container.innerHTML=""
 
-data.forEach(c=>{
+if(filtered.length === 0){
+container.innerHTML = "<p>No complaints found</p>"
+return
+}
+
+filtered.forEach(c=>{
+
+const statusColor = c.status === "Completed" ? "green" : "red"
 
 const div = document.createElement("div")
-
 div.className="card"
 
 div.innerHTML=`
@@ -51,7 +102,7 @@ div.innerHTML=`
 
 <p><b>Location:</b> ${c.location}</p>
 
-<p><b>Status:</b> ${c.status}</p>
+<p style="color:${statusColor};"><b>Status:</b> ${c.status}</p>
 
 <img src="${c.image}" width="200"/>
 
@@ -71,20 +122,19 @@ container.appendChild(div)
 async function updateStatus(id,status){
 
 await fetch(API + "/update/" + id,{
-
 method:"PUT",
-
 headers:{
 "Content-Type":"application/json"
 },
-
 body:JSON.stringify({status})
-
 })
 
 loadComplaints()
 
 }
+
+document.getElementById("search").addEventListener("input",loadComplaints)
+document.getElementById("statusFilter").addEventListener("change",loadComplaints)
 
 loadComplaints()
 
